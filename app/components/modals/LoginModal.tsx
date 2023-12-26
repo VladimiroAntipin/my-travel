@@ -35,20 +35,25 @@ const LoginModal = () => {
             ...data,
             redirect: false
         })
-        .then((callback) => {
-            setIsLoading(false);
+            .then((callback) => {
+                setIsLoading(false);
 
-            if(callback?.ok) {
-                toast.success("Logged in!");
-                router.refresh();
-                loginModal.onClose();
-            }
+                if (callback?.ok) {
+                    toast.success("Logged in!");
+                    router.refresh();
+                    loginModal.onClose();
+                }
 
-            if(callback?.error) {
-                toast.error(callback.error);
-            }
-        })
+                if (callback?.error) {
+                    toast.error(callback.error);
+                }
+            })
     };
+
+    const toggle = useCallback(() => {
+        loginModal.onClose();
+        registerModal.onOpen();
+    }, [loginModal, registerModal]);
 
     const bodyContent = (
         <div className="flex flex-col gap-4">
@@ -66,10 +71,10 @@ const LoginModal = () => {
             <div className="text-neutral-500 text-center mt-4 font-light">
                 <div className="flex flex-row items-center gap-2 justify-center">
                     <div>
-                        Already have an account?
+                        First time using MyTravel?
                     </div>
-                    <div className="text-neutral-800 cursor-pointer hover:underline" onClick={registerModal.onClose}>
-                        Log in
+                    <div className="text-neutral-800 cursor-pointer hover:underline" onClick={toggle}>
+                        Create an account
                     </div>
                 </div>
             </div>
